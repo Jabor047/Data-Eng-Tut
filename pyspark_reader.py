@@ -1,7 +1,7 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.types import *
 
-spark = SparkSession.builder.appName("DataFrame") .master("local[5]").getOrCreate()
+spark = SparkSession.builder.appName("DataFrame").master("local[10]").getOrCreate()
 
 # The schema is encoded in a string.
 schemaList = ['utc_time_id', 'source_id', 'feed_id', 'primary_link_source_flag',
@@ -32,7 +32,9 @@ print(df.rdd.getNumPartitions())
 
 # store data as a csv or parquet
 def write_out_df(df, format:str):
-    df.write.option('header', True).format(format).save("I80_davis")
+    df.write.option('header', True).format(format).save("I80_davis_csv")
 
 write_out_df(df, format='csv')
+
+# write_out_df(df, 'parquet')
 
