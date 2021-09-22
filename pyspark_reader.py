@@ -4,14 +4,14 @@ from pyspark.sql.types import *
 spark = SparkSession.builder.appName("DataFrame").master("local[10]").getOrCreate()
 
 # The schema is encoded in a string.
-schemaList = ['utc_time_id', 'source_id', 'feed_id', 'primary_link_source_flag',
-            'samples', 'avg_speed','avg_flow','avg_occ','avg_freeflow_speed', 
-            'avg_travel_time', 'high_quality_samples', 'samples_below_100pct_ff',
-            'samples_below_95pct_ff', 'samples_below_90pct_ff', 'samples_below_85pct_ff',
-            'samples_below_80pct_ff', 'samples_below_75pct_ff', 'samples_below_70pct_ff',
-            'samples_below_65pct_ff', 'samples_below_60pct_ff', 'samples_below_55pct_ff',
-            'samples_below_50pct_ff', 'samples_below_45pct_ff', 'samples_below_40pct_ff',
-            'samples_below_35pct_ff', 'samples_below_30pct_ff']
+schemaList = ['utc_time_id', 'flow1', 'occupancy1', 'flow2',
+            'occupancy2', 'flow3','occupancy3','flow4','occupancy4', 
+            'flow5', 'occupancy5', 'flow6',
+            'occupancy6', 'flow7', 'occupancy7',
+            'flow8', 'occupancy8', 'flow9',
+            'occupancy9', 'flow10', 'occupancy10',
+            'flow11', 'occupancy11', 'flow12',
+            'occupancy12', 'empty_col']
 
 # cast all columns as String --  to be reformmated while defining schema for mysql dwh
 fields = [StructField(field_name, StringType(), True) for field_name in schemaList]
