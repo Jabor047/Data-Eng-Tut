@@ -1,0 +1,4 @@
+I80_davis/
+I80_davis_parquet/
+*.csv
+*.parquet
