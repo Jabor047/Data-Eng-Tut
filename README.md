@@ -1,4 +1,8 @@
 # Data-Eng-Tut
+
+![image](https://user-images.githubusercontent.com/40719064/134534271-36c7471b-91a7-48b8-bd0e-94d71d04d5a0.png)
+
+
 Data warehouse tech stack with MySQL, DBT, Airflow, and Spark
 
 ## Business Need
