@@ -110,6 +110,53 @@ def preprocess_stations(path:str):
 
     return df
 
+def preprocess_richards_stations(path:str):
+    # df = read_stations_data(spark, data_location=path)
+    df = pd.read_csv(path)
+    df['timestamp_id'] = pd.to_datetime(df['timestamp_id'])
+    df = df.fillna(0)
+
+    return df
+
+def insert_to_dimRichardsStation(dwhName:str, data_path, table_name:str)->None:
+    """
+
+    Parameters
+    ----------
+    dwhName :
+        str:
+    df :
+        pd.DataFrame:
+    table_name :
+        str:        
+
+    Returns
+    -------
+
+    """
+    conn, cur = DBConnect(dwhName)
+
+    df = preprocess_richards_stations(data_path)
+
+    for _, row in df.iterrows():
+        sqlQuery = f"""INSERT INTO {table_name} (timestamp_id, flow1, occupancy1, flow2, occupancy2,
+                                            flow3, occupancy3, totalflow, weekday, hour, minute, second)
+             VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+        data = (str(row[0]), float(row[1]), float(row[2]), float(row[3]), float(row[4]), float(row[5]),
+                    float(row[6]), float(row[7]), float(row[8], int(row[9]), int(row[10]), int(row[11])))
+
+        try:
+            # Execute the SQL command
+            cur.execute(sqlQuery, data)
+            # Commit your changes in the database
+            conn.commit()
+            print("Data Inserted Successfully")
+        except Exception as e:
+            conn.rollback()
+            print("Error: ", e)
+    return
+
+
 def insert_to_dimStationSummaryAirflow_table(dwhName:str, data_path, table_name:str)->None:
     """
 
