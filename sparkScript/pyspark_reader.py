@@ -5,7 +5,7 @@ spark = SparkSession.builder.appName("DataFrame").master("local[10]").getOrCreat
 
 # The schema is encoded in a string.
 schemaList = ['utc_time_id', 'station_id', 'flow1', 'occupancy1', 'flow2',
-            'occupancy2', 'flow3','occupancy3','flow4','occupancy4', 
+            'occupancy2', 'flow3', 'occupancy3', 'flow4','occupancy4',
             'flow5', 'occupancy5', 'flow6',
             'occupancy6', 'flow7', 'occupancy7',
             'flow8', 'occupancy8', 'flow9',
@@ -37,4 +37,3 @@ def write_out_df(df, format:str):
 write_out_df(df, format='csv')
 
 # write_out_df(df, 'parquet')
-
