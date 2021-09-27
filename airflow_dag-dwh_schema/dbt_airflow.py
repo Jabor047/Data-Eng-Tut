@@ -3,7 +3,6 @@ import json
 
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
-from airflow.utils.dates import datetime
 from airflow.utils.dates import timedelta
 
 default_args = {
