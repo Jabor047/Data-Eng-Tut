@@ -3,7 +3,7 @@
 version: "2.2"
 x-redash-service: &redash-service
   build:
-    context: .
+    context: ./redash
     args:
       skip_frontend_build: "true"
   volumes:
