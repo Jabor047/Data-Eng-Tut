@@ -25,7 +25,8 @@ with DAG(
         task_id="pre_process",
         python_callable=preprocess_stations,
         op_kwargs={
-            "path": "/home/Abuton/Desktop/ML_PATH/week0/dwh-techstack/Data-Eng-Tut/I80_davis_csv/part-00000-ed553926-4a23-4a83-b890-aa071edb86ea-c000.csv"
+            "path": "/home/Kev_in/Projects/personal/b4_week_11/airflow_dag-dwh_schema/"
+                    "I80_davis_csv/part-00000-7f3ad5a3-b713-4f8c-ba67-d4d9a0cfa102-c000.csv"
         },
     )
 
@@ -34,7 +35,7 @@ with DAG(
         python_callable=createTables,
         op_kwargs={
             "dwhName": "Sensor_DW",
-            "schema_name": "/home/Abuton/Desktop/ML_PATH/week0/dwh-techstack/mysql_dwh/all_stations_schema.sql",
+            "schema_name": "/home/Kev_in/Projects/personal/b4_week_11/airflow_dag-dwh_schema/all_stations_schema.sql",
         },
     )
 
@@ -48,14 +49,15 @@ with DAG(
         python_callable=insert_to_all_station_table,
         op_kwargs={
             "dwhName": "Sensor_DW",
-            "data_path": "/home/Abuton/Desktop/ML_PATH/week0/dwh-techstack/Data-Eng-Tut/I80_davis_csv/part-00000-ed553926-4a23-4a83-b890-aa071edb86ea-c000.csv",
+            "data_path": "/home/Kev_in/Projects/personal/b4_week_11/airflow_dag-dwh_schema/I80_davis_csv/"
+                         "part-00000-7f3ad5a3-b713-4f8c-ba67-d4d9a0cfa102-c000.csv",
             "table_name": "dimAllStations",
         },
     )
     # email = EmailOperator(
     #     task_id='send_email',
     #     # email_conn_id = 'sendgrid_default',
-    #     to='abubakar@10academy.org',
+    #     to='kevin@10academy.org',
     #     subject='Weekly Data Warehouse Update',
     #     html_content=""" <h1>Congratulations! Your data is inserted correctly and ready for use.</h1> """,
     #     )

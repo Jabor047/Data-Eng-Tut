@@ -9,7 +9,7 @@ default_args = {
     'owner': 'astronomer',
     'depends_on_past': False,
     'start_date': datetime(2020, 12, 23),
-    'email': ['abubakar@10academy.org'],
+    'email': ['kevin@10academy.org'],
     'email_on_failure': False,
     'email_on_retry': False,
     'retries': 1,
@@ -24,7 +24,7 @@ dag = DAG(
 )
 
 def load_manifest():
-    local_filepath = "/home/Abuton/Desktop/ML_PATH/week0/dwh-techstack/sensorCompany/target/manifest.json"
+    local_filepath = "/home/Kev_in/Projects/personal/b4_week_11/mysql_dbt/target/manifest.json"
     with open(local_filepath) as f:
         data = json.load(f)
 
@@ -32,7 +32,7 @@ def load_manifest():
 
 def make_dbt_task(node, dbt_verb):
     """Returns an Airflow operator either run and test an individual model"""
-    DBT_DIR = "/home/Abuton/Desktop/ML_PATH/week0/dwh-techstack/sensorCompany"
+    DBT_DIR = "/home/Kev_in/Projects/personal/b4_week_11/mysql_dbt"
     GLOBAL_CLI_FLAGS = "--no-write-json"
     model = node.split(".")[-1]
 

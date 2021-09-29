@@ -1,4 +1,4 @@
-DROP TABLE dimAllStations IF EXISTS;
+DROP TABLE IF EXISTS dimAllStations;
 
 CREATE TABLE IF NOT EXISTS `dimAllStations` 
 (

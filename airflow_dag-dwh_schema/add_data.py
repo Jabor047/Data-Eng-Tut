@@ -1,5 +1,6 @@
 import pandas as pd
 import mysql.connector as mysql
+import os
 
 # from pyspark.sql import SparkSession
 
@@ -18,7 +19,8 @@ def DBConnect(dwhName=None):
     -------
 
     """
-    conn = mysql.connect(host="localhost", user="root", database=dwhName, buffered=True)
+    conn = mysql.connect(host="localhost", user="root", password=os.getenv("mysqlPass"),
+                         database=dwhName, buffered=True)
     cur = conn.cursor()
     print("Successfully Connected!")
     return conn, cur
@@ -443,8 +445,9 @@ if __name__ == "__main__":
 
     # df = pd.read_csv('../data_store/I80_stations.csv')
 
-    insert_to_all_station_table(
-        dwhName=dwhName,
-        data_path="/home/Abuton/Desktop/ML_PATH/week0/dwh-techstack/Data-Eng-Tut/I80_davis_csv/part-00000-ed553926-4a23-4a83-b890-aa071edb86ea-c000.csv",
-        table_name=dimName,
-    )
+    # insert_to_all_station_table(
+    #     dwhName=dwhName,
+    #     data_path="/home/Kev_in/Projects/personal/b4_week_11/airflow_dag-dwh_schema/"
+    #               "I80_davis_csv/part-00000-7f3ad5a3-b713-4f8c-ba67-d4d9a0cfa102-c000.csv",
+    #     table_name=dimName,
+    # )
