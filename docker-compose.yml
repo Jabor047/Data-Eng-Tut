@@ -7,7 +7,7 @@ x-redash-service: &redash-service
     args:
       skip_frontend_build: "true"
   volumes:
-    - .:/app
+    - ./redash:/app
 x-redash-environment: &redash-environment
   REDASH_LOG_LEVEL: "INFO"
   REDASH_REDIS_URL: "redis://redis:6379/0"
@@ -64,3 +64,43 @@ services:
     ports:
       - "1080:80"
     restart: unless-stopped
+  # mysql-airflow:
+  #   image: mysql:msyql
+  #   enviroment:
+  #     MYSQL_DB : airflowdb
+  #   expose:
+  #     - 3306
+  #   restart: always
+  #   volumes:
+  #     - ./schema:/schema
+  mysql-dbt:
+    image: mysql:mysql
+    expose:
+      - 3306
+    volumes:
+      - ./data:/data
+  airflow:
+    build: .
+    restart: always
+    enviromemt:
+      DBT_PROFILES_DIR: /dbt
+      AIRFLOW_HOME: /airflow
+      AIRFLOW__CORE__DAGS_FOLDER: /airflow/dags
+      AIRFLOW__CORE__PARALLELISM: 4
+      AIRFLOW__CORE__DAG_CONCURRENCY: 4
+      AIRFLOW__CORE__MAX_ACTIVE_RUNS_PER_DAG: 4
+      # MYSQL_USER: root
+      # MYSQL_HOST: mysql-airflow
+      MYSQL_PORT: 3306
+      # MYSQL_DB: airflowdb
+      DBT_MYSQL_HOST: mysql-dbt
+    ports:
+      - 8000:8082
+      - 8001:8081
+    depends_on:
+      - mysql-airflow
+      - mysql-dbt
+    volumes:
+      - ./dbt:/dbt
+      - ./airflow:/airflow
+      - ./schema:/schema
