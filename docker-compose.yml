@@ -74,9 +74,11 @@ services:
   #   volumes:
   #     - ./schema:/schema
   mysql-dbt:
-    image: mysql:mysql
-    expose:
-      - 3306
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD=1
   airflow:
     build: .
     restart: always
@@ -93,8 +95,8 @@ services:
       # MYSQL_DB: airflowdb
       DBT_MYSQL_HOST: mysql-dbt
     ports:
-      - 8000:8082
-      - 8001:8081
+      - "8000:8082"
+      - "8047:8081"
     depends_on:
       # - mysql-airflow
       - mysql-dbt
