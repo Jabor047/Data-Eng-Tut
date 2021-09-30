@@ -80,7 +80,7 @@ services:
   airflow:
     build: .
     restart: always
-    enviromemt:
+    environment:
       DBT_PROFILES_DIR: /dbt
       AIRFLOW_HOME: /airflow
       AIRFLOW__CORE__DAGS_FOLDER: /airflow/dags
