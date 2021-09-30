@@ -7,7 +7,7 @@ version: '1.0.0'
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'sensor_db'
+profile: 'mysql_dbt'
 
 # These configurations specify where dbt should look for different types of files.
 # The `source-paths` config, for example, states that models in this project can be
@@ -36,5 +36,4 @@ models:
       # Applies to all files under models/example/
       stagging:
           +materialized: table
-          +schema: Sensor_DW
-        
+#           +schema: Sensor_DW

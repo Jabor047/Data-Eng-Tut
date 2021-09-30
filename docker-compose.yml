@@ -1,0 +1,105 @@
+# This configuration file is for the **development** setup.
+# For a production example please refer to getredash/setup repository on GitHub.
+version: "2.2"
+x-redash-service: &redash-service
+  build:
+    context: ./redash
+    args:
+      skip_frontend_build: "true"
+  volumes:
+    - ./redash:/app
+x-redash-environment: &redash-environment
+  REDASH_LOG_LEVEL: "INFO"
+  REDASH_REDIS_URL: "redis://redis:6379/0"
+  REDASH_DATABASE_URL: "postgresql://postgres@postgres/postgres"
+  REDASH_RATELIMIT_ENABLED: "false"
+  REDASH_MAIL_DEFAULT_SENDER: "redash@example.com"
+  REDASH_MAIL_SERVER: "email"
+  REDASH_ENFORCE_CSRF: "true"
+  REDASH_ENABLED_QUERY_RUNNERS: "redash.query_runner.mysql,redash.query_runner.pg"
+services:
+  server:
+    <<: *redash-service
+    command: dev_server
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "5000:5000"
+      - "5678:5678"
+    environment:
+      <<: *redash-environment
+      PYTHONUNBUFFERED: 0
+  scheduler:
+    <<: *redash-service
+    command: dev_scheduler
+    depends_on:
+      - server
+    environment:
+      <<: *redash-environment
+  worker:
+    <<: *redash-service
+    command: dev_worker
+    depends_on:
+      - server
+    environment:
+      <<: *redash-environment
+      PYTHONUNBUFFERED: 0
+  redis:
+    image: redis:3-alpine
+    restart: unless-stopped
+  postgres:
+    image: postgres:9.5-alpine
+    # The following turns the DB into less durable, but gains significant performance improvements for the tests run (x3
+    # improvement on my personal machine). We should consider moving this into a dedicated Docker Compose configuration for
+    # tests.
+    ports:
+      - "15432:5432"
+    command: "postgres -c fsync=off -c full_page_writes=off -c synchronous_commit=OFF"
+    restart: unless-stopped
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+  email:
+    image: djfarrelly/maildev
+    ports:
+      - "1080:80"
+    restart: unless-stopped
+  # mysql-airflow:
+  #   image: mysql:msyql
+  #   enviroment:
+  #     MYSQL_DB : airflowdb
+  #   expose:
+  #     - 3306
+  #   restart: always
+  #   volumes:
+  #     - ./schema:/schema
+  mysql-dbt:
+    image: mysql:mysql
+    expose:
+      - 3306
+  airflow:
+    build: .
+    restart: always
+    enviromemt:
+      DBT_PROFILES_DIR: /dbt
+      AIRFLOW_HOME: /airflow
+      AIRFLOW__CORE__DAGS_FOLDER: /airflow/dags
+      AIRFLOW__CORE__PARALLELISM: 4
+      AIRFLOW__CORE__DAG_CONCURRENCY: 4
+      AIRFLOW__CORE__MAX_ACTIVE_RUNS_PER_DAG: 4
+      # MYSQL_USER: root
+      # MYSQL_HOST: mysql-airflow
+      MYSQL_PORT: 3306
+      # MYSQL_DB: airflowdb
+      DBT_MYSQL_HOST: mysql-dbt
+    ports:
+      - 8000:8082
+      - 8001:8081
+    depends_on:
+      # - mysql-airflow
+      - mysql-dbt
+    volumes:
+      - ./dbt:/dbt
+      - ./airflow:/airflow
+      - ./schema:/schema
+      - ./data:/data
