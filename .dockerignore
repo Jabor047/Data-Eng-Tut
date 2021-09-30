@@ -1,0 +1,11 @@
+dbt/dbt_modules/
+dbt/logs/
+airflow_dag/I80_davis_csv/
+I80_davis/
+I80_davis_parquet/
+*.csv
+*.parquet
+*.txt
+*.gz
+!requirements.txt
+!data/sample_data.csv

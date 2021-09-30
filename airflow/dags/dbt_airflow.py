@@ -17,6 +17,7 @@ default_args = {
 }
 
 dag = DAG(
+
     'dbt_dag',
     default_args=default_args,
     description='A dbt wrapper for airflow to run models in sensor dataviews',

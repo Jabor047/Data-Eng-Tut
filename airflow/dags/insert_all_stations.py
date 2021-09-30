@@ -25,8 +25,7 @@ with DAG(
         task_id="pre_process",
         python_callable=preprocess_stations,
         op_kwargs={
-            "path": "/airflow/"
-                    "I80_davis_csv/part-00000-7f3ad5a3-b713-4f8c-ba67-d4d9a0cfa102-c000.csv"
+            "path": "/data/sample_data.csv"
         },
     )
 
@@ -42,15 +41,15 @@ with DAG(
     # insert = MySqlOperator(
     #     task_id='insert_to_db',
     #     mysql_conn_id="mysql_db1",
-    #     sql="LOAD DATA  INFILE '/home/Abuton/Desktop/ML_PATH/week0/dwh-techstack/data_store/station_summary.csv' INTO TABLE dimStationSummaryAirflow FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 ROWS;")
+    #     sql="LOAD DATA  INFILE '/home/Abuton/Desktop/ML_PATH/week0/dwh-techstack/data_store/station_summary.csv'
+    #     INTO TABLE dimStationSummaryAirflow FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 ROWS;")
 
     insert = PythonOperator(
         task_id="insert_to_db",
         python_callable=insert_to_all_station_table,
         op_kwargs={
             "dwhName": "Sensor_DW",
-            "data_path": "/airflow/I80_davis_csv/"
-                         "part-00000-7f3ad5a3-b713-4f8c-ba67-d4d9a0cfa102-c000.csv",
+            "data_path": "/data/sample_data.csv",
             "table_name": "dimAllStations",
         },
     )

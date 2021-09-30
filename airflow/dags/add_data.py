@@ -448,7 +448,6 @@ if __name__ == "__main__":
 
     insert_to_all_station_table(
         dwhName=dwhName,
-        data_path="/airflow/"
-                  "I80_davis_csv/part-00000-7f3ad5a3-b713-4f8c-ba67-d4d9a0cfa102-c000.csv",
+        data_path="/data/sample_data.csv",
         table_name=dimName,
     )

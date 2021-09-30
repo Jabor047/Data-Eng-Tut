@@ -77,8 +77,6 @@ services:
     image: mysql:mysql
     expose:
       - 3306
-    volumes:
-      - ./data:/data
   airflow:
     build: .
     restart: always
@@ -104,3 +102,4 @@ services:
       - ./dbt:/dbt
       - ./airflow:/airflow
       - ./schema:/schema
+      - ./data:/data
