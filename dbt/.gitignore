@@ -1,4 +1,4 @@
-
+*.csv
 target/
 dbt_modules/
 logs/
