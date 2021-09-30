@@ -96,7 +96,7 @@ services:
       - 8000:8082
       - 8001:8081
     depends_on:
-      - mysql-airflow
+      # - mysql-airflow
       - mysql-dbt
     volumes:
       - ./dbt:/dbt
