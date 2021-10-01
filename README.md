@@ -25,3 +25,12 @@ Complete the following tasks:
     -Check additional modules of dbt that can support you with data quality monitoring (e.g. great_expectations, dbt_expectations or re-data). 
 
     - Connect the reporting environment and create a dashboard out of this data
+
+## ⛏️ Built Using <a name = "built_using"></a>
+
+- [Python](https://www.python.org/) - Programming Language
+- [Airflow](https://airflow.apache.org/) - Orchestration and Automation
+- [DBT](https://www.getdbt.com/) - Data Transformation using sql select statement
+- [Redash](https://redash.io/) - Dashboard Environment
+- [Spark](https://spark.apache.org/) - Big Data Loading and Transformation
+- [Superset](https://superset.apache.org/) - Migrated Dashboard Environment
